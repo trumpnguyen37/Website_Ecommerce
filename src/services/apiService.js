@@ -47,17 +47,17 @@ let hashUserPassword = (password) => {
 }
 
 let handleRegister = (data) => {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let check = await db.Account.findOne({
-                where: {email : data.email}
+                where: { email: data.email }
             })
-            if(check){
+            if (check) {
                 resolve({
                     errCode: 1,
                     msg: 'Your email is already!'
                 })
-            }else{
+            } else {
                 let hashPassword = await hashUserPassword(data.password);
                 await db.Account.create({
                     email: data.email,
@@ -89,10 +89,17 @@ let getAllProduct = () => {
                     attributes: ['name']
                 }]
             });
-            resolve({
-                errCode: 0,
-                allProduct: allProduct
-            })
+            if (allProduct.length <= 0) {
+                resolve({
+                    errCode: 1,
+                    errMsg: "No products"
+                })
+            } else {
+                resolve({
+                    errCode: 0,
+                    allProduct: allProduct
+                })
+            }
         } catch (error) {
             rejects(error);
         }
@@ -129,9 +136,59 @@ let getProductByCategory = (nameCategory) => {
     })
 }
 
+let handleCreateProduct = (dataProduct) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Product.create({
+                title: dataProduct.title,
+                desc: dataProduct.desc,
+                cover: dataProduct.cover,
+                discount: dataProduct.discount,
+                price: dataProduct.price,
+                name: dataProduct.name,
+                typeComponent: dataProduct.typeComponent,
+                idCategory: dataProduct.idCategory
+            })
+            resolve({
+                errCode: 0,
+                msg: 'Create Product Successful'
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+let getAllCategory = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let allCategory = await db.Category.findAll({
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            })
+            if (allCategory.length <= 0) {
+                resolve({
+                    errCode: 1,
+                    errMsg: "No Categories"
+                })
+            } else {
+                resolve({
+                    errCode: 0,
+                    allCategory: allCategory
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getAllProduct: getAllProduct,
     getProductByCategory: getProductByCategory,
     handleLogin: handleLogin,
-    handleRegister: handleRegister
+    handleRegister: handleRegister,
+    handleCreateProduct: handleCreateProduct,
+    getAllCategory: getAllCategory
 }

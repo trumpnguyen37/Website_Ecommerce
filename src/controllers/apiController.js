@@ -13,7 +13,7 @@ let handleLogin = async (req, res) => {
     } else {
         let data = await apiService.handleLogin(email, password)
         if (data.errCode === 0) {
-            // res.cookie('token', data.token);
+            res.cookie('token', data.token);
             res.status(200).json({
                 errCode: 0,
                 token: data.token
@@ -28,7 +28,7 @@ let handleLogin = async (req, res) => {
 }
 
 let handleRegister = async (req, res) => {
-    if (!req.body) {
+    if (!req.body.email || !req.body.password || !req.body.name) {
         return res.status(400).json({
             errCode: 1,
             msg: 'Missing required parameters'

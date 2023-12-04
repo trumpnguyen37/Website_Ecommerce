@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     discount: DataTypes.STRING,
     price: DataTypes.STRING,
     name: DataTypes.STRING,
-    typeComponent: DataTypes.STRING,
     idCategory: DataTypes.UUID
   }, {
     sequelize,

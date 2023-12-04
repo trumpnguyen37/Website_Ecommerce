@@ -28,10 +28,10 @@ const SlideCard = () => {
         if (data.allProduct) {
           setProducts(data.allProduct);
         } else {
-          console.log("Không có sản phẩm nào được tìm thấy.");
+          console.log("No products found.");
         }
       } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error.message);
+        console.error("Error retrieving product data:", error.message);
       }
     };
     getProductsData();

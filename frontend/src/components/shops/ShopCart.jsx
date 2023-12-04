@@ -44,7 +44,8 @@
 
 //export default ShopCart
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ShopCart = ({ shopItems, addToCart }) => {
   const [count, setCount] = useState(0);
@@ -52,9 +53,29 @@ const ShopCart = ({ shopItems, addToCart }) => {
     setCount(count + 1);
   };
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProductsData = async () => {
+      try {
+        const response = await axios.get("/api/allProduct");
+        const { data } = response;
+
+        if (data.allProduct) {
+          setProducts(data.allProduct);
+        } else {
+          console.log("No products found.");
+        }
+      } catch (error) {
+        console.error("Error retrieving product data:", error.message);
+      }
+    };
+    getProductsData();
+  }, []);
+
   return (
     <>
-      {shopItems.map((shopItems, index) => {
+      {products.map((shopItems, index) => {
         return (
           <div className="box">
             <div className="product mtop">

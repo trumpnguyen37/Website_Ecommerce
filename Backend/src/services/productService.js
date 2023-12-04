@@ -59,13 +59,13 @@ let getProductByCategory = (nameCategory) => {
     })
 }
 
-let handleCreateProduct = (dataProduct) => {
+let handleCreateProduct = (dataProduct, img) => {
     return new Promise(async (resolve, reject) => {
         try {
             await db.Product.create({
                 title: dataProduct.title,
                 desc: dataProduct.desc,
-                cover: dataProduct.cover,
+                cover: img,
                 discount: dataProduct.discount,
                 price: dataProduct.price,
                 name: dataProduct.name,

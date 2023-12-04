@@ -1,13 +1,14 @@
 import productService from "../services/productService"
 
+
 let getAllProduct = async (req, res) => {
     let data = await productService.getAllProduct()
-    if(data.errCode !== 0){
+    if (data.errCode !== 0) {
         res.status(200).json({
             errCode: data.errCode,
             errMsg: data.errMsg
         })
-    }else{
+    } else {
         res.status(200).json({
             errCode: data.errCode,
             allProduct: data.allProduct
@@ -37,7 +38,13 @@ let handleCreateProduct = async (req, res) => {
             msg: 'Missing required parameters'
         })
     } else {
-        let message = await productService.handleCreateProduct(req.body);
+        let message;
+        if(req.file){
+            let img = req.file.path
+            message = await productService.handleCreateProduct(req.body, img);
+        }else{
+            message = await productService.handleCreateProduct(req.body, null);
+        }
         return res.status(200).json(message)
     }
 }
@@ -46,4 +53,5 @@ module.exports = {
     getAllProduct: getAllProduct,
     getProductByCategory: getProductByCategory,
     handleCreateProduct: handleCreateProduct,
+    
 }

@@ -25,6 +25,24 @@ let getAllCategory = () => {
     })
 }
 
+let handleCreateCategory = (name, img) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Category.create({
+                name: name,
+                image: img
+            })
+            resolve({
+                errCode: 0,
+                msg: 'Create Category Successful'
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    getAllCategory: getAllCategory
+    getAllCategory: getAllCategory,
+    handleCreateCategory: handleCreateCategory
 }

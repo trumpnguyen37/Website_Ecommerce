@@ -1,7 +1,8 @@
 import express from "express";
-import apiController from "../controllers/categoryController" 
+import categoryController from "../controllers/categoryController"
 import authController from "../controllers/authController"
 import productController from "../controllers/productController"
+import updateController from '../controllers/updateController';
 
 let router = express.Router();
 
@@ -18,11 +19,13 @@ let initWebRoutes = (app) => {
     // 
     router.get('/api/allProduct', productController.getAllProduct)
     //
-    router.get('/api/allCategory', apiController.getAllCategory)
-    //
-    router.post('/api/createProduct', productController.handleCreateProduct)
+    router.post('/api/createProduct', updateController.upload.single('cover'), productController.handleCreateProduct)
     //
     router.get('/api/category/:name', productController.getProductByCategory)
+    //
+    router.get('/api/allCategory', categoryController.getAllCategory)
+    //
+    router.post('/api/createCategory', updateController.upload.single('image'), categoryController.handleCreateCategory)
 
     return app.use("/", router)
 }

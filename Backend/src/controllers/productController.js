@@ -39,10 +39,10 @@ let handleCreateProduct = async (req, res) => {
         })
     } else {
         let message;
-        if(req.file){
-            let img = req.file.path
+        if (req.file) {
+            let img = req.file.path.slice(4)
             message = await productService.handleCreateProduct(req.body, img);
-        }else{
+        } else {
             message = await productService.handleCreateProduct(req.body, null);
         }
         return res.status(200).json(message)
@@ -53,5 +53,5 @@ module.exports = {
     getAllProduct: getAllProduct,
     getProductByCategory: getProductByCategory,
     handleCreateProduct: handleCreateProduct,
-    
+
 }

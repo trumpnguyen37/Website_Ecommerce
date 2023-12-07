@@ -24,7 +24,7 @@ let handleCreateCategory = async (req, res) => {
     } else {
         let message;
         if (req.file) {
-            let img = req.file.path
+            let img = req.file.path.slice(4)
             message = await categoryService.handleCreateCategory(req.body.name, img);
         } else {
             message = await categoryService.handleCreateCategory(req.body.name, null);

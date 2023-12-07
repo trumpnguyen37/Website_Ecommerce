@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Oder.belongsTo(models.Account, { foreignKey: 'idCustomer' });
       Oder.hasMany(models.OderDetail, { foreignKey: 'idOder' });
+      Oder.belongsTo(models.Shop, { foreignKey: 'idShop' });
     }
   }
   Oder.init({
@@ -28,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     oderDate: DataTypes.DATE,
     deliveryPhoneNumber: DataTypes.STRING,
     status: DataTypes.STRING,
+    idShop: DataTypes.UUID,
   }, {
     sequelize,
     freezeTableName: true,

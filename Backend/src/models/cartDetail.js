@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     idCart: DataTypes.UUID,
     idProduct: DataTypes.UUID,
-    quatity: DataTypes.INTEGER,  
+    quatity: DataTypes.INTEGER, 
+    idShop: DataTypes.UUID, 
   }, {
     sequelize,
     freezeTableName: true,

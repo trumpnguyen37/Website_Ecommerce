@@ -24,23 +24,24 @@ const SlideCard = () => {
       try {
         const response = await axios.get("/api/allProduct");
         const { data } = response;
-
         if (data.allProduct) {
           setProducts(data.allProduct);
         } else {
-          console.log("Không có sản phẩm nào được tìm thấy.");
+          console.log("No products found.");
         }
       } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error.message);
+        console.error("Error retrieving product data:", error.message);
       }
     };
     getProductsData();
   }, []);
 
+  console.log(products);
+
   return (
     <>
       <Slider {...settings}>
-        {products.map((value, index) => {
+        {Sdata.map((value, index) => {
           return (
             <>
               <div className="box d_flex top" key={index}>
@@ -50,7 +51,7 @@ const SlideCard = () => {
                   <button className="btn-primary">Visit Collections</button>
                 </div>
                 <div className="right">
-                  <img src={value.cover} alt="" />
+                  <img src={`${value.cover}`} alt="" />
                 </div>
               </div>
             </>

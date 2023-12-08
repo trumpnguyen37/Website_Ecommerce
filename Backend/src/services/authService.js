@@ -8,7 +8,12 @@ let handleLogin = (email, password) => {
     return new Promise(async (resolve, rejects) => {
         try {
             let user = await db.Account.findOne({
-                where: { email: email }
+                where: { email: email },
+                include: [{
+                    model: db.Role,
+                    attributes: ['name'],
+                }],
+                raw: true
             })
             if (!user) {
                 resolve({
@@ -18,9 +23,11 @@ let handleLogin = (email, password) => {
             } else {
                 let checkPass = bcrypt.compareSync(password, user.password)
                 if (checkPass) {
+                    delete user.password
                     resolve({
                         errCode: 0,
-                        token: jwt.sign({ data: user.email }, 'mk')
+                        token: jwt.sign({ data: user }, process.env.KEY_SECRET),
+                        role: user['Role.name']
                     })
                 } else {
                     resolve({

@@ -14,7 +14,8 @@ let handleLogin = async (req, res) => {
         if (data.errCode === 0) {
             res.status(200).json({
                 errCode: 0,
-                token: data.token
+                token: data.token,
+                role: data.role
             })
         } else {
             res.status(200).json({

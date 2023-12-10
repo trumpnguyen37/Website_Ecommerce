@@ -29,8 +29,8 @@ a {
   --dark-bg-third: #3a3b3c;
   --dark-color-primary: #242526;
   --dark-color-secondary: #b0b3b8;
-  --blue-color: #1876f2;
-  --green-color: #42b72a;
+  --pink-color: #e94560;
+  --green-color: #5dd545;
   --light-blue-color: #e7f3ff;
   --border-color: #ccced2;
   --shadow-1: rgba(0, 0, 0, 0.2);
@@ -43,7 +43,7 @@ a {
 .blue_btn {
   border: none;
   outline: none;
-  background: var(--blue-color);
+  background: var(--pink-color);
   padding: 8.5px 12px;
   border-radius: 7px;
   font-family: inherit;

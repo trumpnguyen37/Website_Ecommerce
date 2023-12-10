@@ -38,7 +38,7 @@ const Dcard = () => {
   return (
     <>
       <Slider {...settings}>
-        {Ddata.map((value, index) => {
+        {products.map((value, index) => {
           return (
             <>
               <div className="box product" key={index}>

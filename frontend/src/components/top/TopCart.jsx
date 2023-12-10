@@ -37,7 +37,7 @@ const TopCart = () => {
   return (
     <>
       <Slider {...settings}>
-        {Tdata.map((value, index) => {
+        {products.map((value, index) => {
           return (
             <>
               <div className="box product" key={index}>

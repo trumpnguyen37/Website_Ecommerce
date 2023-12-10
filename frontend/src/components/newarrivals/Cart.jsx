@@ -26,7 +26,7 @@ const Cart = () => {
   return (
     <>
       <div className="content grid product">
-        {Ndata.map((val, index) => {
+        {products.map((val, index) => {
           return (
             <div className="box" key={index}>
               <div className="img">

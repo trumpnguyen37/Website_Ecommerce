@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Product.belongsTo(models.Category, { foreignKey: 'idCategory' });
+      Product.belongsTo(models.Shop, { foreignKey: 'idShop' });
       Product.hasMany(models.CartDetail, { foreignKey: 'idProduct' });
       Product.hasMany(models.OderDetail, { foreignKey: 'idProduct' });
     }
@@ -30,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     discount: DataTypes.STRING,
     price: DataTypes.STRING,
     name: DataTypes.STRING,
-    typeComponent: DataTypes.STRING,
-    idCategory: DataTypes.UUID
+    idCategory: DataTypes.UUID,
+    idShop: DataTypes.UUID
   }, {
     sequelize,
     freezeTableName: true,

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Category.hasMany(models.Product, { foreignKey: 'idCategory'});
+            Category.hasMany(models.CategoryShop, { foreignKey: 'idCategory'});
         }
     }
     Category.init({
@@ -22,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
         },
+        image: DataTypes.STRING,
         name: DataTypes.STRING
     }, {
         sequelize,

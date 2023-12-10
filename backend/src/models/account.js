@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Account.belongsTo(models.Role, { foreignKey: 'idRole' });
       Account.hasOne(models.Cart, { foreignKey: 'idCustomer' });
+      Account.hasMany(models.Oder, { foreignKey: 'idCustomer' });
+      Account.hasMany(models.Shop, { foreignKey: 'idAccount' });
     }
   }
   Account.init({

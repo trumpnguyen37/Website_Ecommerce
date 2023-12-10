@@ -24,7 +24,6 @@ const SlideCard = () => {
       try {
         const response = await axios.get("/api/allProduct");
         const { data } = response;
-
         if (data.allProduct) {
           setProducts(data.allProduct);
         } else {
@@ -37,10 +36,12 @@ const SlideCard = () => {
     getProductsData();
   }, []);
 
+  console.log(products);
+
   return (
     <>
       <Slider {...settings}>
-        {products.map((value, index) => {
+        {Sdata.map((value, index) => {
           return (
             <>
               <div className="box d_flex top" key={index}>
@@ -50,7 +51,7 @@ const SlideCard = () => {
                   <button className="btn-primary">Visit Collections</button>
                 </div>
                 <div className="right">
-                  <img src={value.cover} alt="" />
+                  <img src={`${value.cover}`} alt="" />
                 </div>
               </div>
             </>

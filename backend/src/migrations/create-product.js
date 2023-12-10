@@ -28,9 +28,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      typeComponent: {
-        type: Sequelize.STRING
-      },
       idCategory: {
         type: Sequelize.UUID
       },

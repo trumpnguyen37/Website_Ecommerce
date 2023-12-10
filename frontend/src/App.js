@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Routes, Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./common/header/Header";
-import Pages from "./pages/Pages";
+import Pages from "./pages/homepage/Pages";
 import Data from "./components/Data";
 import Cart from "./common/Cart/Cart";
 import Footer from "./common/footer/Footer";
@@ -47,26 +47,28 @@ function App() {
 
   return (
     <Routes>
-      {/* <Route path="/login" element={<Login />} exact /> */}
-      {/* <Header CartItem={CartItem} /> */}
+      <Route path="/login" element={<Login />} exact />
       <Route
         path="/"
         element={
           <Pages
             productItems={productItems}
             addToCart={addToCart}
+            CartItem={CartItem}
             shopItems={shopItems}
           />
         }
       ></Route>
-      {/* <Route path="/cart" exact>
-        <Cart
-          CartItem={CartItem}
-          addToCart={addToCart}
-          decreaseQty={decreaseQty}
-        />
-      </Route>
-      <Footer /> */}
+      <Route
+        path="/cart"
+        element={
+          <Cart
+            CartItem={CartItem}
+            addToCart={addToCart}
+            decreaseQty={decreaseQty}
+          />
+        }
+      ></Route>
     </Routes>
   );
 }

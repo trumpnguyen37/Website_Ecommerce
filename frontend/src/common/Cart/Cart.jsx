@@ -1,5 +1,7 @@
 import React from "react";
 import "./style.css";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
 const Cart = ({ CartItem, addToCart, decreaseQty }) => {
   // Step: 7   calculate total of items
@@ -11,6 +13,7 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
   // product qty total
   return (
     <>
+      <Header CartItem={CartItem} />
       <section className="cart-items">
         <div className="container d_flex">
           {/* If any item in our cart is not displayed */}
@@ -75,6 +78,7 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

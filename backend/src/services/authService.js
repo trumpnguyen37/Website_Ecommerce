@@ -1,14 +1,30 @@
 import db from "../models/index"
 import bcrypt from 'bcrypt'
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const salt = bcrypt.genSaltSync(10);
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.G_MAIL,
+        pass: process.env.G_PASS,
+    },
+});
 
 let handleLogin = (email, password) => {
     return new Promise(async (resolve, rejects) => {
         try {
             let user = await db.Account.findOne({
-                where: { email: email }
+                where: { email: email },
+                include: [{
+                    model: db.Role,
+                    attributes: ['name'],
+                }],
+                raw: true
             })
             if (!user) {
                 resolve({
@@ -18,10 +34,19 @@ let handleLogin = (email, password) => {
             } else {
                 let checkPass = bcrypt.compareSync(password, user.password)
                 if (checkPass) {
-                    resolve({
-                        errCode: 0,
-                        token: jwt.sign({ data: user.email }, 'mk')
-                    })
+                    if (user.status != 'Confirmed') {
+                        resolve({
+                            errCode: 3,
+                            errMsg: "Your account unconfirmed"
+                        })
+                    } else {
+                        delete user.password
+                        resolve({
+                            errCode: 0,
+                            token: jwt.sign({ data: user }, process.env.KEY_SECRET),
+                            role: user['Role.name']
+                        })
+                    }
                 } else {
                     resolve({
                         errCode: 2,
@@ -58,17 +83,43 @@ let handleRegister = (data) => {
                     msg: 'Your email is already!'
                 })
             } else {
+                const token = jwt.sign({ email: data.email }, process.env.KEY_SECRET)
+                let link = `${process.env.CLIENT_URL}/api/confirmRegister/${token}`
+                const mailOptions = {
+                    from: process.env.G_MAIL,
+                    to: data.email,
+                    subject: 'Confirm Register',
+                    text: `Click on the following link to confirm your account: ${link}.`,
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.error(error);
+                        resolve({
+                            errCode: 1,
+                            msg: 'Internal Server Error'
+                        });
+                    } else {
+                        resolve({
+                            errCode: 0,
+                            msg: 'Sent confirm your account to email successfully'
+                        });
+                    }
+                });
                 let hashPassword = await hashUserPassword(data.password);
+                let role = await db.Role.findOne({
+                    where: { name: data.role }
+                })
                 await db.Account.create({
                     email: data.email,
                     password: hashPassword,
                     name: data.name,
                     phoneNumber: data.phoneNumber,
-                    idRole: '711821a4-91bd-11ee-90a2-c03eba29bf1f'
+                    idRole: role.id,
+                    status: 'Unconfirmed'
                 })
                 resolve({
                     errCode: 0,
-                    msg: 'Register Successful'
+                    msg: 'Register Successful. Please confirm your account!'
                 })
             }
         } catch (error) {
@@ -77,7 +128,30 @@ let handleRegister = (data) => {
     })
 }
 
+let confirmRegister = async (token) => {
+    let tokenVerify = jwt.verify(token, process.env.KEY_SECRET)
+    let email = tokenVerify.email
+    let account = await db.Account.findOne({
+        where: { email: email }
+    })
+    if (!account) {
+        return ({
+            errCode: 1,
+            errMsg: "Invalid token!"
+        })
+    } else {
+        await db.Account.update({ status: "Confirmed" }, {
+            where: { email: email }
+        })
+        return ({
+            errCode: 1,
+            errMsg: "Your account has been confirmed"
+        })
+    }
+}
+
 module.exports = {
     handleLogin: handleLogin,
     handleRegister: handleRegister,
+    confirmRegister: confirmRegister
 }

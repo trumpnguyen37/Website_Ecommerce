@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     name: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
-    idRole: DataTypes.UUID
+    idRole: DataTypes.UUID,
+    status: DataTypes.STRING,
   }, {
     sequelize,
     freezeTableName: true,

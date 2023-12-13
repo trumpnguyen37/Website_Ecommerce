@@ -1,9 +1,27 @@
 import db from "../models/index"
 
+let handleCreateCategory = (name, img) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Category.create({
+                name: name,
+                image: img
+            })
+            resolve({
+                errCode: 0,
+                msg: 'Create Category Successful'
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 let getAllCategory = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let allCategory = await db.Category.findAll({
+            let allCategory = await db.CategoryShop.findAll({
+                where: {idShop: shop},
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
@@ -25,16 +43,18 @@ let getAllCategory = () => {
     })
 }
 
-let handleCreateCategory = (name, img) => {
+let handleCreateShop = (dataShop) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await db.Category.create({
-                name: name,
-                image: img
+            await db.Shop.create({
+                name: dataShop.name,
+                address: dataShop.address,
+                phoneNumber: dataShop.phoneNumber,
+                idAccount: dataShop.idAccount
             })
             resolve({
                 errCode: 0,
-                msg: 'Create Category Successful'
+                msg: 'Create Shop Successful'
             })
         } catch (error) {
             reject(error)
@@ -44,5 +64,6 @@ let handleCreateCategory = (name, img) => {
 
 module.exports = {
     getAllCategory: getAllCategory,
+    handleCreateShop: handleCreateShop,
     handleCreateCategory: handleCreateCategory
 }

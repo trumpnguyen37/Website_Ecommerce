@@ -1,12 +1,17 @@
 import express from "express";
-import categoryController from "../controllers/categoryController"
+import shopController from "../controllers/shopController"
 import authController from "../controllers/authController"
 import productController from "../controllers/productController"
-import updateController from '../controllers/updateController';
+import updateController from '../controllers/updateController'
+import adminController from "../controllers/adminController"
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
+
+    router.get('/login', (req, res) => {
+        res.render('login.ejs')
+    })
     // input: email, password
     // !email || !password => (errCode: 1, errMsg: 'Miising input')
     // email isn't exist => (errCode: 1, errMsg: `Your's email isn't exist`)
@@ -16,6 +21,7 @@ let initWebRoutes = (app) => {
     // input: email, password, name, phoneNumber  
     // !email || !password || !name => (errCode: 1, errMsg: 'Missing required parameters')
     router.post('/api/register', authController.handleRegister)
+    router.get('/api/confirmRegister/:token', authController.handleConfirmRegister)
     // 
     router.get('/api/allProduct', productController.getAllProduct)
     //
@@ -23,9 +29,13 @@ let initWebRoutes = (app) => {
     //
     router.get('/api/category/:name', productController.getProductByCategory)
     //
-    router.get('/api/allCategory', categoryController.getAllCategory)
+    router.put('/api/createShop', adminController.handleCreateShop)
     //
-    router.post('/api/createCategory', updateController.upload.single('image'), categoryController.handleCreateCategory)
+    router.put('/api/addCategory', shopController.handleAddCategory)
+    //
+    router.get('/api/allCategory/:shop', adminController.getAllCategory)
+    //
+    router.post('/api/createCategory', updateController.upload.single('image'), adminController.handleCreateCategory)
 
     return app.use("/", router)
 }

@@ -8,9 +8,6 @@ module.exports = {
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
-    "query": {
-      "raw": true,
-    }
   },
   "test": {
     "username": "root",
@@ -27,9 +24,6 @@ module.exports = {
     "port": process.env.DB_PORT,
     "dialect": "mysql",
     "logging": false,
-    "query": {
-      "raw": true,
-    },
     "ssl": {
       "require": true,
       "rejectUnauthorized": false

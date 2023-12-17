@@ -24,7 +24,7 @@ let handleLogin = (email, password) => {
                     model: db.Role,
                     attributes: ['name'],
                 }],
-                raw: true
+                // raw: true
             })
             if (!user) {
                 resolve({
@@ -35,16 +35,17 @@ let handleLogin = (email, password) => {
                 let checkPass = bcrypt.compareSync(password, user.password)
                 if (checkPass) {
                     if (user.status != 'Confirmed') {
+                        sendMailConfirm(jwt.sign({ email: email }, process.env.KEY_SECRET), email)
                         resolve({
                             errCode: 3,
                             errMsg: "Your account unconfirmed"
                         })
                     } else {
-                        delete user.password
+                        delete user.dataValues.password
                         resolve({
                             errCode: 0,
                             token: jwt.sign({ data: user }, process.env.KEY_SECRET),
-                            role: user['Role.name']
+                            user: user
                         })
                     }
                 } else {
@@ -71,6 +72,30 @@ let hashUserPassword = (password) => {
     })
 }
 
+let sendMailConfirm = (token, email) => {
+    let link = `${process.env.CLIENT_URL}/api/confirmRegister/${token}`
+    const mailOptions = {
+        from: process.env.G_MAIL,
+        to: email,
+        subject: 'Confirm Register',
+        text: `Click on the following link to confirm your account: ${link}.`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            return({
+                errCode: 1,
+                msg: 'Internal Server Error'
+            });
+        } else {
+            return({
+                errCode: 0,
+                msg: 'Sent confirm your account to email successfully'
+            });
+        }
+    });
+}
+
 let handleRegister = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -84,27 +109,7 @@ let handleRegister = (data) => {
                 })
             } else {
                 const token = jwt.sign({ email: data.email }, process.env.KEY_SECRET)
-                let link = `${process.env.CLIENT_URL}/api/confirmRegister/${token}`
-                const mailOptions = {
-                    from: process.env.G_MAIL,
-                    to: data.email,
-                    subject: 'Confirm Register',
-                    text: `Click on the following link to confirm your account: ${link}.`,
-                };
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.error(error);
-                        resolve({
-                            errCode: 1,
-                            msg: 'Internal Server Error'
-                        });
-                    } else {
-                        resolve({
-                            errCode: 0,
-                            msg: 'Sent confirm your account to email successfully'
-                        });
-                    }
-                });
+                sendMailConfirm(token, data.email)
                 let hashPassword = await hashUserPassword(data.password);
                 let role = await db.Role.findOne({
                     where: { name: data.role }
@@ -144,8 +149,8 @@ let confirmRegister = async (token) => {
             where: { email: email }
         })
         return ({
-            errCode: 1,
-            errMsg: "Your account has been confirmed"
+            errCode: 0,
+            msg: "Your account has been confirmed"
         })
     }
 }

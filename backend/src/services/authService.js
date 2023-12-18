@@ -31,7 +31,7 @@ let handleLogin = (email, password) => {
       if (!user) {
         resolve({
           errCode: 1,
-          errMsg: `Your's email isn't exist`,
+          errMsg: "Your's email isn't exist",
         });
       } else {
         let checkPass = bcrypt.compareSync(password, user.password);
@@ -124,6 +124,8 @@ let handleRegister = (data) => {
           password: hashPassword,
           name: data.name,
           phoneNumber: data.phoneNumber,
+          dob: data.dob,
+          gender: data.gender,
           idRole: role.id,
           status: "Unconfirmed",
         });

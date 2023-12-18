@@ -29,7 +29,7 @@ a {
   --dark-bg-third: #3a3b3c;
   --dark-color-primary: #242526;
   --dark-color-secondary: #b0b3b8;
-  --pink-color: #e94560;
+  --blue-color: #0f3460;
   --green-color: #5dd545;
   --light-blue-color: #e7f3ff;
   --border-color: #ccced2;
@@ -43,7 +43,7 @@ a {
 .blue_btn {
   border: none;
   outline: none;
-  background: var(--pink-color);
+  background: var(--blue-color);
   padding: 8.5px 12px;
   border-radius: 7px;
   font-family: inherit;

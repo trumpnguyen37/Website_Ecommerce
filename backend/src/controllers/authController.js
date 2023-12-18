@@ -16,7 +16,7 @@ let handleLogin = async (req, res) => {
       res.status(200).json({
         errCode: 0,
         token: data.token,
-        role: data.role,
+        user: data.user,
       });
     } else {
       res.status(200).json({
@@ -55,7 +55,7 @@ let handleConfirmRegister = async (req, res) => {
   }
   return res.status(200).json({
     errCode: data.errCode,
-    data: data,
+    msg: data.msg,
   });
 };
 

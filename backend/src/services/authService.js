@@ -38,7 +38,7 @@ let handleLogin = (email, password) => {
                         sendMailConfirm(jwt.sign({ email: email }, process.env.KEY_SECRET), email)
                         resolve({
                             errCode: 3,
-                            errMsg: "Your account unconfirmed"
+                            errMsg: "Your account unconfirmed. Please check gmail!"
                         })
                     } else {
                         delete user.dataValues.password
@@ -83,12 +83,12 @@ let sendMailConfirm = (token, email) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(error);
-            return({
+            return ({
                 errCode: 1,
                 msg: 'Internal Server Error'
             });
         } else {
-            return({
+            return ({
                 errCode: 0,
                 msg: 'Sent confirm your account to email successfully'
             });
@@ -119,6 +119,8 @@ let handleRegister = (data) => {
                     password: hashPassword,
                     name: data.name,
                     phoneNumber: data.phoneNumber,
+                    dob: data.dob,
+                    gender: data.gender,
                     idRole: role.id,
                     status: 'Unconfirmed'
                 })
@@ -143,6 +145,11 @@ let confirmRegister = async (token) => {
         return ({
             errCode: 1,
             errMsg: "Invalid token!"
+        })
+    } else if (account.status == 'Confirmed') {
+        return ({
+            errCode: 0,
+            errMsg: "Your account has been confirmed"
         })
     } else {
         await db.Account.update({ status: "Confirmed" }, {

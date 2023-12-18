@@ -31,9 +31,7 @@ let handleCreateCategory = async (req, res) => {
     }
 }
 
-let getAllCategory = async (req, res) => {
-    let idShop = req.param.shop
-    console.log(idShop);
+let handleGetAllCategory = async (req, res) => {
     let data = await adminService.getAllCategory()
     if (data.errCode !== 0) {
         res.status(200).json({
@@ -51,5 +49,5 @@ let getAllCategory = async (req, res) => {
 module.exports = {
     handleCreateShop: handleCreateShop,
     handleCreateCategory: handleCreateCategory,
-    getAllCategory: getAllCategory
+    handleGetAllCategory: handleGetAllCategory
 }

@@ -29,6 +29,29 @@ let getAllProduct = () => {
     })
 }
 
+let getProductDetail = (name) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let product = await db.Product.findOne({
+                name: name
+            })
+            if((!product)){
+                resolve({
+                    errCode: 1,
+                    errMsg: 'No details found for this product!'
+                })
+            }else{
+                resolve({
+                    errCode: 0,
+                    product: product
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 let getProductByCategory = (nameCategory) => {
     return new Promise(async (resolve, rejects) => {
         try {
@@ -86,4 +109,5 @@ module.exports = {
     getAllProduct: getAllProduct,
     getProductByCategory: getProductByCategory,
     handleCreateProduct: handleCreateProduct,
+    getProductDetail: getProductDetail
 }

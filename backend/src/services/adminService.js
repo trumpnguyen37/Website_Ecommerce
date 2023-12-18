@@ -20,12 +20,7 @@ let handleCreateCategory = (name, img) => {
 let getAllCategory = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let allCategory = await db.CategoryShop.findAll({
-                where: {idShop: shop},
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
-            })
+            let allCategory = await db.Category.findAll()
             if (allCategory.length <= 0) {
                 resolve({
                     errCode: 1,

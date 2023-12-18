@@ -11,20 +11,23 @@ let handleAddCategory = (nameCategory, tokenUser) => {
             let category = db.Category.findOne({
                 where: { name: nameCategory }
             })
-            Promise.all([shop, category]).then((data)=>{
-                console.log(data);
+            Promise.all([shop, category]).then((data) => {
+                if (!data[0]) {
+                    resolve({
+                        errCode: 3,
+                        errMsg: 'Access Denied'
+                    })
+                } else {
+                    db.CategoryShop.create({
+                        idShop: shop.id,
+                        idCategory: category.id
+                    })
+                    resolve({
+                        errCode: 0,
+                        msg: 'Added category successfully!'
+                    })
+                }
             })
-            // if (user.data['Role.name'] != 'Seller') {
-            //     resolve({
-            //         errCode: 3,
-            //         errMsg: "Access Denied"
-            //     })
-            // } else {
-            //     db.CategoryShop.create({
-            //         idShop: shop.id,
-            //         idCategory: category.id
-            //     })
-            // }
         } catch (error) {
             reject(error)
         }

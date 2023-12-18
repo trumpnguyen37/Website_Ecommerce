@@ -1,40 +1,44 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Account extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * The models/index file will call this method automatically.
      */
     static associate(models) {
       // define association here
-      Account.belongsTo(models.Role, { foreignKey: 'idRole' });
-      Account.hasOne(models.Cart, { foreignKey: 'idCustomer' });
-      Account.hasMany(models.Oder, { foreignKey: 'idCustomer' });
-      Account.hasMany(models.Shop, { foreignKey: 'idAccount' });
+      Account.belongsTo(models.Role, { foreignKey: "idRole" });
+      Account.hasOne(models.Cart, { foreignKey: "idCustomer" });
+      Account.hasMany(models.Oder, { foreignKey: "idCustomer" });
+      Account.hasMany(models.Shop, { foreignKey: "idAccount" });
     }
   }
-  Account.init({
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      unique: true,
+  Account.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        unique: true,
+      },
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      name: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING,
+      image: DataTypes.STRING,
+      dob: DataTypes.DATE,
+      gender: DataTypes.STRING,
+      idRole: DataTypes.UUID,
+      status: DataTypes.STRING,
     },
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    name: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    idRole: DataTypes.UUID,
-    status: DataTypes.STRING,
-  }, {
-    sequelize,
-    freezeTableName: true,
-    modelName: 'Account',
-  });
+    {
+      sequelize,
+      freezeTableName: true,
+      modelName: "Account",
+    }
+  );
   return Account;
 };

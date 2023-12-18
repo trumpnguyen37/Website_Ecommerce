@@ -15,33 +15,23 @@ export default function RoleSelect({ handleRegisterChange, roleError }) {
       className="reg_grid"
       style={{ marginBottom: `${roleError && !view3 ? "70px" : "0"}` }}
     >
-      <label htmlFor="admin">
-        Admin
+      <label htmlFor="customer">
+        Customer
         <input
           type="radio"
           name="role"
-          id="admin"
-          value="admin"
+          id="customer"
+          value="customer"
           onChange={handleRegisterChange}
         />
       </label>
-      <label htmlFor="user">
-        User
+      <label htmlFor="seller">
+        Seller
         <input
           type="radio"
           name="role"
-          id="user"
-          value="user"
-          onChange={handleRegisterChange}
-        />
-      </label>
-      <label htmlFor="guest">
-        Guest
-        <input
-          type="radio"
-          name="role"
-          id="guest"
-          value="guest"
+          id="seller"
+          value="seller"
           onChange={handleRegisterChange}
         />
       </label>

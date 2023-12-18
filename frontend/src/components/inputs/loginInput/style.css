@@ -18,7 +18,7 @@
   color: var(--color-primary);
 }
 .input_wrap input:focus {
-  border-color: var(--pink-color);
+  border-color: var(--blue-color);
 }
 .input_error_border {
   border-color: #b94a48 !important;

@@ -16,7 +16,7 @@ let handleLogin = async (req, res) => {
       res.status(200).json({
         errCode: 0,
         token: data.token,
-        role: data.role,
+        user: data.user,
       });
     } else {
         let data = await authService.handleLogin(email, password)
@@ -83,7 +83,7 @@ let handleConfirmRegister = async (req, res) => {
   }
   return res.status(200).json({
     errCode: data.errCode,
-    data: data,
+    msg: data.msg,
   });
 };
 module.exports = {

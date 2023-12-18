@@ -9,31 +9,34 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import RoleSelect from "./RoleSelect";
 
 export default function RegisterForm({ setVisible }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfos = {
-    first_name: "",
-    last_name: "",
+    name: "",
+    phoneNumber: "",
     email: "",
     password: "",
     bYear: new Date().getFullYear(),
     bMonth: new Date().getMonth() + 1,
     bDay: new Date().getDate(),
     gender: "",
+    role: "",
   };
 
   const [user, setUser] = useState(userInfos);
   const {
-    first_name,
-    last_name,
+    name,
+    phoneNumber,
     email,
     password,
     bYear,
     bMonth,
     bDay,
     gender,
+    role,
   } = user;
   const yearTemp = new Date().getFullYear();
   const handleRegisterChange = (e) => {
@@ -48,16 +51,13 @@ export default function RegisterForm({ setVisible }) {
   };
   const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
   const registerValidation = Yup.object({
-    first_name: Yup.string()
-      .required("What's your First name?")
+    name: Yup.string()
+      .required("What's your Name?")
       .min(2, "First name must be between 2 and 16 characters.")
-      .max(16, "First name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
-    last_name: Yup.string()
-      .required("What's your Last name?")
-      .min(2, "First name must be between 2 and 16 characters.")
-      .max(16, "First name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
+      .max(16, "First name must be between 2 and 16 characters."),
+    phoneNumber: Yup.string()
+      .required("What's your phone number?")
+      .matches(/((09|03|07|08|05)+([0-9]{8})\b)/g, "Invalid phone number"),
     email: Yup.string()
       .required(
         "You'll need this when you log in and if you ever need to reset your password."
@@ -69,9 +69,11 @@ export default function RegisterForm({ setVisible }) {
       )
       .min(6, "Password must be atleast 6 characters.")
       .max(36, "Password can't be more than 36 characters"),
+    role: Yup.string().required("Please select a role."),
   });
   const [dateError, setDateError] = useState("");
   const [genderError, setGenderError] = useState("");
+  const [roleError, setRoleError] = useState("");
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -81,14 +83,11 @@ export default function RegisterForm({ setVisible }) {
     try {
       setLoading(true);
       const { data } = await axios.post(`/api/register`, {
-        first_name,
-        last_name,
-        email,
-        password,
-        bYear,
-        bMonth,
-        bDay,
-        gender,
+        email: user.email,
+        password: user.password,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
       });
       setError("");
       setSuccess(data.message);
@@ -115,14 +114,15 @@ export default function RegisterForm({ setVisible }) {
         <Formik
           enableReinitialize
           initialValues={{
-            first_name,
-            last_name,
+            name,
+            phoneNumber,
             email,
             password,
             bYear,
             bMonth,
             bDay,
             gender,
+            role,
           }}
           validationSchema={registerValidation}
           onSubmit={() => {
@@ -143,9 +143,17 @@ export default function RegisterForm({ setVisible }) {
               setGenderError(
                 "Please choose a gender. You can change who can see this later."
               );
+              setRoleError("");
+            } else if (role === "") {
+              setDateError("");
+              setGenderError("");
+              setRoleError(
+                "Please choose a role. You can change who can see this later."
+              );
             } else {
               setDateError("");
               setGenderError("");
+              setRoleError("");
               registerSubmit();
             }
           }}
@@ -155,14 +163,14 @@ export default function RegisterForm({ setVisible }) {
               <div className="reg_line">
                 <RegisterInput
                   type="text"
-                  placeholder="First name"
-                  name="first_name"
+                  placeholder="Name"
+                  name="name"
                   onChange={handleRegisterChange}
                 />
                 <RegisterInput
                   type="text"
-                  placeholder="Surname"
-                  name="last_name"
+                  placeholder="Phone Number"
+                  name="phoneNumber"
                   onChange={handleRegisterChange}
                 />
               </div>
@@ -206,6 +214,16 @@ export default function RegisterForm({ setVisible }) {
                   genderError={genderError}
                 />
               </div>
+              <div className="reg_col">
+                <div className="reg_line_header">
+                  Role <i className="info_icon"></i>
+                </div>
+                <RoleSelect
+                  handleRegisterChange={handleRegisterChange}
+                  roleError={roleError}
+                />
+              </div>
+
               <div className="reg_infos">
                 By clicking Sign Up, you agree to our{""}
                 <span>Terms, Data Policy &nbsp;</span>
@@ -215,6 +233,7 @@ export default function RegisterForm({ setVisible }) {
               <div className="reg_btn_wrapper">
                 <button className="blue_btn open_signup">Sign Up</button>
               </div>
+
               <DotLoader
                 color="#1876f2"
                 loading={loading}

@@ -82,11 +82,15 @@ export default function RegisterForm({ setVisible }) {
   const registerSubmit = async () => {
     try {
       setLoading(true);
+      let dob = user.bYear + "/" + user.bMonth + "/" + user.bDay;
+      console.log(dob);
       const { data } = await axios.post(`/api/register`, {
         email: user.email,
         password: user.password,
         name: user.name,
         phoneNumber: user.phoneNumber,
+        gender: user.gender,
+        dob: dob,
         role: user.role,
       });
       setError("");

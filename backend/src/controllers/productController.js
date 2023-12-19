@@ -15,6 +15,20 @@ let getAllProduct = async (req, res) => {
   }
 };
 
+let getProductDetail = async (req, res) => {
+  let data = await productService.getProductDetail(req.params.name);
+  if (data.errCode != 0) {
+    return res.status(200).json({
+      errCode: data.errCode,
+      errMsg: data.errMsg,
+    });
+  }
+  return res.status(200).json({
+    errCode: data.errCode,
+    product: data.product,
+  });
+};
+
 let getProductByCategory = async (req, res) => {
   let data = await productService.getProductByCategory(req.params.name);
   if (data.errCode !== 0) {
@@ -52,4 +66,5 @@ module.exports = {
   getAllProduct: getAllProduct,
   getProductByCategory: getProductByCategory,
   handleCreateProduct: handleCreateProduct,
+  getProductDetail: getProductDetail,
 };

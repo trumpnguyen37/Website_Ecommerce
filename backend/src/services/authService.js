@@ -31,7 +31,7 @@ let handleLogin = (email, password) => {
       if (!user) {
         resolve({
           errCode: 1,
-          errMsg: "Your's email isn't exist",
+          errMsg: `Your's email isn't exist`,
         });
       } else {
         let checkPass = bcrypt.compareSync(password, user.password);
@@ -43,7 +43,7 @@ let handleLogin = (email, password) => {
             );
             resolve({
               errCode: 3,
-              errMsg: "Your account unconfirmed",
+              errMsg: "Your account unconfirmed. Please check gmail!",
             });
           } else {
             delete user.dataValues.password;
@@ -150,6 +150,11 @@ let confirmRegister = async (token) => {
     return {
       errCode: 1,
       errMsg: "Invalid token!",
+    };
+  } else if (account.status == "Confirmed") {
+    return {
+      errCode: 0,
+      errMsg: "Your account has been confirmed",
     };
   } else {
     await db.Account.update(

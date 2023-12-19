@@ -4,12 +4,12 @@ let handleAddCategory = async (req, res) => {
   if (!req.cookies) {
     return res.status(400).json({
       errCode: 1,
-      msg: "Access Denied",
+      errMsg: "Access Denied",
     });
   } else if (!req.cookies.token) {
     return res.status(400).json({
       errCode: 2,
-      msg: "Access Denied",
+      errMsg: "Access Denied",
     });
   } else {
     let tokenUser = req.cookies.token;
@@ -17,7 +17,16 @@ let handleAddCategory = async (req, res) => {
       req.body.nameCategory,
       tokenUser
     );
-    return res.status(200).json(data);
+    if (data.errCode != 0) {
+      return res.status(400).json({
+        errCode: data.errCode,
+        errMsg: data.errMsg,
+      });
+    }
+    return res.status(200).json({
+      errCode: data.errCode,
+      msg: data.msg,
+    });
   }
 };
 

@@ -19,21 +19,6 @@ let handleLogin = async (req, res) => {
         user: data.user,
       });
     } else {
-        let data = await authService.handleLogin(email, password)
-        if (data.errCode === 0) {
-            res.cookie('token', data.token);
-            res.status(200).json({
-                errCode: 0,
-                token: data.token,
-                user: data.user
-            })
-        } else {
-            res.status(200).json({
-                errCode: data.errCode,
-                errMsg: data.errMsg
-            })
-        }
-=======
       res.status(200).json({
         errCode: data.errCode,
         errMsg: data.errMsg,
@@ -60,19 +45,6 @@ let handleRegister = async (req, res) => {
 };
 
 let handleConfirmRegister = async (req, res) => {
-    let token = req.params.token
-    let data = await authService.confirmRegister(token)
-    if(data.errCode != 0){
-        return res.status(400).json({
-            errCode: data.errCode,
-            errMsg: data.errMsg
-        })
-    }
-    return res.status(200).json({
-        errCode: data.errCode,
-        msg: data.msg
-    })
-}
   let token = req.params.token;
   let data = await authService.confirmRegister(token);
   if (data.errCode != 0) {
@@ -86,6 +58,7 @@ let handleConfirmRegister = async (req, res) => {
     msg: data.msg,
   });
 };
+
 module.exports = {
   handleLogin: handleLogin,
   handleRegister: handleRegister,

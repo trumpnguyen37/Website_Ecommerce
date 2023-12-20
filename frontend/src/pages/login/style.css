@@ -1,4 +1,4 @@
-/* -------LOGIN---------- */
+/*-------login-----*/
 .login_wrapper {
   background: var(--bg-secondary);
 }
@@ -52,19 +52,18 @@
   background: var(--bg-third);
 }
 .open_signup {
-  background: var(--green-color) !important;
+  background: var(--green-color);
   width: 70% !important;
   font-weight: 600 !important;
   font-size: 17px !important;
   margin-top: 1rem;
-  height: 42px;
 }
 .sign_extra {
   font-size: 15px;
 }
-/* -------LOGIN---------- */
+/*-------login-----*/
 
-/* -------Register------ */
+/*-----Register---------*/
 .register {
   position: absolute;
   top: 50%;
@@ -79,7 +78,6 @@
   height: fit-content;
   color: var(--color-primary);
 }
-
 .register_header {
   position: relative;
   display: flex;
@@ -88,44 +86,37 @@
   padding-bottom: 10px;
   border-bottom: 1px solid var(--bg-third);
 }
-
 .register_header i {
   position: absolute;
   right: 0;
   cursor: pointer;
 }
-
 .register_header span:first-of-type {
   font-weight: 700;
   font-size: 32px;
 }
-
 .register_header span:last-of-type {
   font-size: 15px;
   color: var(--color-secondary);
 }
-
 .register_form {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .reg_line {
   padding: 7px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .reg_col {
   position: relative;
   align-self: flex-start;
   margin-bottom: 10px;
   padding: 0 10px;
 }
-
 .reg_line_header {
   display: flex;
   align-items: center;
@@ -133,11 +124,9 @@
   font-size: 13px;
   color: var(--color-secondary);
 }
-
 .reg_line_header i {
   margin-top: 3px;
 }
-
 .reg_grid {
   margin-top: 5px;
   display: grid;
@@ -146,7 +135,6 @@
   height: 35px;
   width: 100%;
 }
-
 .reg_grid select {
   width: 90px;
   font-size: 16px;
@@ -155,7 +143,6 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
 .reg_grid label {
   width: 90px;
   display: flex;
@@ -165,20 +152,17 @@
   color: var(--color-primary);
   border-radius: 5px;
   cursor: pointer;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-secondary);
   padding: 0 10px;
 }
-
 .reg_infos {
   font-size: 11px;
   margin-top: 10px;
   color: var(--color-secondary);
 }
-
 .reg_infos span {
   color: var(--blue-color);
 }
-
 .reg_btn_wrapper {
   width: 100%;
   display: flex;
@@ -186,7 +170,7 @@
   justify-content: center;
   margin: 20px 0 10px 0;
 }
-/* -------Register------ */
+/*-----Register---------*/
 
 /*----Footer------*/
 .login_footer {
@@ -232,29 +216,26 @@
 }
 /*----Footer------*/
 
-/* ----dob and gender errors---- */
+/*----dob and gender errors-----*/
 .reg_grid .input_error {
   width: 300px;
   position: absolute;
   top: 70px;
 }
-
 .input_error_select_large {
+  left: -97%;
   top: 15px !important;
-  left: -98%;
 }
-/* ----dob and gender errors---- */
+/*----dob and gender errors-----*/
 
-/* ----error and success styles---- */
+/*----error and success styles -------*/
 .error_text {
   color: #b94a48;
 }
-
 .success_text {
   color: var(--green-color);
 }
-
-/* ----error and success styles---- */
+/*----error and success styles -------*/
 
 /*----Media queries--------------*/
 @media (min-width: 539px) {
@@ -271,7 +252,6 @@
   .reg_grid label {
     width: 110px;
   }
-
   .reg_grid .input_error {
     width: 350px;
   }

@@ -98,13 +98,6 @@ export default function LoginForm({ setVisible }) {
                   onChange={handleLoginChange}
                   bottom
                 />
-                <DotLoader
-                  color="#1876f2"
-                  loading={loading}
-                  size={30}
-                  aria-label="Loading Spinner"
-                  data-testid="loader"
-                />
                 <button type="submit" className="blue_btn">
                   Log In
                 </button>
@@ -114,9 +107,10 @@ export default function LoginForm({ setVisible }) {
           <Link to="/reset" className="forgot_password">
             Forgotten password?
           </Link>
+          <DotLoader color="#1876f2" loading={loading} size={30} />
           {error && <div className="error_text">{error}</div>}
           <div className="sign_splitter"></div>
-          <button
+          <button 
             className="blue_btn open_signup"
             onClick={() => setVisible(true)}
           >

@@ -30,7 +30,6 @@ export default function DateOfBirthSelect({
             {day}
           </option>
         ))}
-        console.log({bDay});
       </select>
       <select name="bMonth" value={bMonth} onChange={handleRegisterChange}>
         {months.map((month, i) => (
